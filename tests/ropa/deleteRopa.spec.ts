@@ -4,7 +4,6 @@ import { logInfo, logError, logWarning } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
 import { generateRandomNumber } from '../utils/helpers';
-import { info } from 'console';
 
 // Cambia la resolución de la ventana
 test.use({
@@ -18,7 +17,7 @@ let context: BrowserContext;
 let page: Page;
 let ropaPage: RopaPage;
 
-// 🔹 Hacer login antes de TODAS las pruebas y compartir sesión
+//Hacer login antes de TODAS las pruebas
 test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
@@ -42,23 +41,8 @@ test.afterAll(async () => {
 
 test ('Delete ROPA successfully Method #1', async () => {
     try {
-        // Get the table
-        const table = await page.locator('//div[@id="selectable-table"]//table//tbody')
-        const rows = await table.locator('xpath=.//tr').all();
-        const firstRow = await rows.at(0)?.locator('xpath=.//td').all();
-        // Check if the table has data
-        if (firstRow?.length === 1) {
-            logWarning('No data available in table');
-        } else {
-            // Delete Ropa
-            const randomNumber = generateRandomNumber(rows.length);
-            const column = await rows.at(randomNumber)?.locator('xpath=.//td[1]//input').click();
-            await page.locator('svg[data-icon="trash"]').click();
-            await expect(page.locator('svg[data-icon="circle-check"]')).toBeVisible();
-            await page.locator('svg[data-icon="circle-check"]').click();
-            await expect(page.locator('//div[@class="Toastify"]//button[@type="button"]')).toBeVisible();
-            logInfo('Ropa deleted successfully');
-        }
+        await ropaPage.deleteRopa(1);
+        logInfo('Ropa deleted successfully');
     } catch (error) {
         logError(`Failed Test Delete ROPA successfully Method #1 ${error}`);
     }
@@ -66,20 +50,8 @@ test ('Delete ROPA successfully Method #1', async () => {
 
 test ('Delete ROPA successfully Method #2', async () => {
     try {
-        const table = await page.locator('//div[@id="selectable-table"]//table//tbody')
-        const rows = await table.locator('xpath=.//tr').all();
-        const firstRow = await rows.at(0)?.locator('xpath=.//td').all();
-        // Check if the table has data
-        if (firstRow?.length === 1) {
-            logWarning('No data available in table');
-        } else {
-            const randomNumber = generateRandomNumber(rows.length);
-            const column = await rows.at(randomNumber)?.locator('xpath=.//td[8]//button').click();
-            await page.locator('svg[data-icon="trash"]').click();
-            await page.locator('svg[data-icon="circle-check"]').click();
-            await expect(page.locator('//div[@class="Toastify"]//button[@type="button"]')).toBeVisible();
-            await page.pause();
-        }
+        await ropaPage.deleteRopa(2);
+        logInfo('Ropa deleted successfully');
     } catch (error) {
         logError(`Failed Test Delete ROPA successfully Method #2 ${error}`);
     }

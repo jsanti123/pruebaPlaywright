@@ -46,23 +46,14 @@ test('Create ROPA successfully', async () => {
         const randomStatus = generateRandomStatus();
         const randomResponsiblePerson = generateRandomResposiblePerson();
         // Create Ropa
-        await page.getByRole('button', { name: 'Create' }).click();
-        await page.locator('a[data-cy="menu-ropa-create"]').click();
-        await page.locator('//div[@data-cy=\'select-type-responsible-person\']//input').fill(randomResponsiblePerson)
-        await page.keyboard.press('Enter');
-        await page.locator('//div[@data-cy=\'select-type-status\']//input').fill(randomStatus)
-        await page.keyboard.press('Enter');
-        await page.getByRole('textbox', { name: 'Name' }).fill(randomString);
-        await page.getByRole('button', { name: 'Save' }).click();
+        const result = await ropaPage.createRopa(page, true);
         // Check if the page is loaded
         await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
         await expect(page.locator('div#tree-menu')).toBeVisible();
         const responsiblePerson = await page.locator('//div[@data-cy="select-type-responsible-person"]//div[@class="css-18ogjxe-singleValue"]').innerText();
         const status = await page.locator('//div[@data-cy="select-type-status"]//div[@class="css-18ogjxe-singleValue"]').innerText();
-        await expect(responsiblePerson).toContain(randomResponsiblePerson);
-        await expect(status).toContain(randomStatus);
-        await expect(responsiblePerson).toContain(randomResponsiblePerson);
-        await expect(status).toContain(randomStatus);
+        await expect(responsiblePerson).toContain(result[1]);
+        await expect(status).toContain(result[0]);
         logInfo('Ropa created successfully');
     } catch (error) {
         logError(`Failed Test Create Ropa ${error}`);
@@ -75,14 +66,10 @@ test('Creation Form validation', async () => {
         const randomStatus = generateRandomStatus();
         const randomResponsiblePerson = generateRandomResposiblePerson();
         //Validar mensaje de error al no ingresar nombre
-        await page.getByRole('button', { name: 'Create' }).click();
-        await page.locator('a[data-cy="menu-ropa-create"]').click();
-        await page.locator('//div[@data-cy=\'select-type-responsible-person\']//input').fill(randomResponsiblePerson);
-        await page.keyboard.press('Enter');
-        await page.locator('//div[@data-cy=\'select-type-status\']//input').fill(randomStatus);
-        await page.keyboard.press('Enter');
-        await page.getByRole('button', { name: 'Save' }).click();
+        const result = await ropaPage.createRopa(page, false);
+        // Check if the error message is displayed
         await expect(page.locator('span[data-cy="error-field_required"]')).toBeVisible();
+        logInfo('Creation form validated successfully');
     } catch (error) {
         logError(`Failed Test Create Ropa ${error}`);
     }
