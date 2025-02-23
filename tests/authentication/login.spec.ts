@@ -11,11 +11,15 @@ test.use({
     },
 });
 
+test.beforeEach(async ({ page }) => {
+    // Go to the login page
+    await page.goto(BASE_URL);
+    logInfo(`Accessing ${BASE_URL}`);
+});
+
+
 test('Successful Access', async ({ page }) => {
     try {
-        // Go to the login page
-        await page.goto(BASE_URL);
-        logInfo(`Accessing ${BASE_URL}`);
         // Login
         const loginPage = new LoginPage(page);
         await loginPage.login(USERNAME, PASSWORD);
@@ -30,9 +34,6 @@ test('Successful Access', async ({ page }) => {
 
 test('Failed Access', async ({ page }) => {
     try {
-        // Go to the login page
-        await page.goto(BASE_URL);
-        logInfo(`Accessing ${BASE_URL}`);
         // Login
         const loginPage = new LoginPage(page);
         await loginPage.login(USERNAME, 'wrongPassword');

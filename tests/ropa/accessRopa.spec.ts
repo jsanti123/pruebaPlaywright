@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect} from '@playwright/test';
 import { LoginPage} from '../pages/loginPage';
 import { logInfo, logError } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
@@ -12,7 +12,7 @@ test.use({
     },
 });
 
-test('Access to Ropa', async ({ page }) => {
+test('Access to Ropa', async ({page}) => {
     try {
         // Go to the login page
         await page.goto(BASE_URL);
@@ -20,8 +20,8 @@ test('Access to Ropa', async ({ page }) => {
         // Login
         const loginPage = new LoginPage(page);
         await loginPage.login(USERNAME, PASSWORD);
-        logInfo(`Logging`);
         await expect(page.getByRole('heading', { name: 'TASK MONITOR' })).toBeVisible();
+        logInfo('Successful Access');
         // Go to Ropa
         const ropaPage = new RopaPage(page);
         await ropaPage.goToRopa();
