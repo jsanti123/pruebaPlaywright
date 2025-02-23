@@ -18,7 +18,7 @@ Antes de comenzar, asegurarse de tener instalado:
 
 ### 3. Instalar dependencias
 - npm install
-- npx playwrigth install
+- npx playwright install
 
 ### 4. Ejecución de pruebas
 - npx playwright test (Ejecutar todas las pruebas)
