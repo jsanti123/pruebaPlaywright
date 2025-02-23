@@ -110,6 +110,7 @@ export class RopaPage {
                 await this.confirmButton.click();
             }
             await expect(this.messageSuccess).toBeVisible();
+            return true;
         }
     }
 
