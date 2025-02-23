@@ -34,3 +34,5 @@ Antes de comenzar, asegurarse de tener instalado:
 
 # Notas 
 - En la carpeta Evidencia se encuentra una imagen que respalda un inconveniente relacionado con la resolución de la página, el cual generaba un error durante la ejecución de las pruebas. Para solucionar este problema, se ajustó el tamaño de la pantalla, permitiendo que las pruebas se llevaran a cabo de manera correcta y sin interrupciones.
+
+- En cada uno de los archivos **spec** se descripbe al inicio del archivo el proposito de cada prueba
