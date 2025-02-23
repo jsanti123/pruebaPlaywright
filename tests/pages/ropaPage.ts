@@ -139,7 +139,7 @@ export class RopaPage {
         return [randomStatus, randomResponsiblePerson, randomString];
     }
 
-    async editPurposeRopa(page: Page) {
+    async editPurposeRopa() {
         // Generate random data
         const rows = await this.table.locator('xpath=.//tr').all();
         const randomNumber = generateRandomNumber(rows.length);

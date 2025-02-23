@@ -22,7 +22,7 @@ let context: BrowserContext;
 let page: Page;
 let ropaPage: RopaPage;
 
-// 🔹 Hacer login antes de TODAS las pruebas y compartir sesión
+//Hacer login antes de TODAS las pruebas y compartir sesión
 test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();

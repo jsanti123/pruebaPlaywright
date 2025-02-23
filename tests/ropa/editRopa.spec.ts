@@ -76,7 +76,7 @@ test('Add Purpose of processing', async () => {
     try {
         let error = true;
         // Add Purpose of processing
-        const result = await ropaPage.editPurposeRopa(page);
+        const result = await ropaPage.editPurposeRopa();
         // Check if the page is loaded
         await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
         await expect(page.locator('div#tree-menu')).toBeVisible();
