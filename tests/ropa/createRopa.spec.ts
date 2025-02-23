@@ -22,12 +22,17 @@ test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
     ropaPage = new RopaPage(page);
-
     await page.goto(BASE_URL);
+    logInfo(`Accessing ${BASE_URL}`);
     const loginPage = new LoginPage(page);
     await loginPage.login(USERNAME, PASSWORD);
     await expect(page.getByRole('heading', { name: 'TASK MONITOR' })).toBeVisible();
     logInfo('Successful login');
+    // Go to Ropa
+    await ropaPage.goToRopa();
+    await expect(page).toHaveURL('https://pubivdjier-testing.priverion.dev/ropa');
+    await expect(page.locator('span[data-cy="title-Record of Processing Activities"]')).toBeVisible();
+    logInfo(`Accessing Ropa`);
 });
 
 test.afterAll(async () => {
@@ -40,11 +45,6 @@ test('Create ROPA successfully', async () => {
         const randomString = generateRandomString();
         const randomStatus = generateRandomStatus();
         const randomResponsiblePerson = generateRandomResposiblePerson();
-        // Go to Ropa
-        await ropaPage.goToRopa();
-        await expect(page).toHaveURL('https://pubivdjier-testing.priverion.dev/ropa');
-        await expect(page.locator('span[data-cy="title-Record of Processing Activities"]')).toBeVisible();
-        logInfo(`Accessing Ropa`);
         // Create Ropa
         await page.getByRole('button', { name: 'Create' }).click();
         await page.locator('a[data-cy="menu-ropa-create"]').click();
@@ -56,20 +56,24 @@ test('Create ROPA successfully', async () => {
         await page.getByRole('button', { name: 'Save' }).click();
         await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
         await expect(page.locator('div#tree-menu')).toBeVisible();
+        const responsiblePerson = await page.locator('//div[@data-cy="select-type-responsible-person"]//div[@class="css-18ogjxe-singleValue"]').innerText();
+        const status = await page.locator('//div[@data-cy="select-type-status"]//div[@class="css-18ogjxe-singleValue"]').innerText();
+        await expect(responsiblePerson).toContain(randomResponsiblePerson);
+        await expect(status).toContain(randomStatus);
+        await expect(responsiblePerson).toContain(randomResponsiblePerson);
+        await expect(status).toContain(randomStatus);
+        await page.pause();
         logInfo('Ropa created successfully');
     } catch (error) {
         logError(`Failed Test Create Ropa ${error}`);
     }
 });
 
-test('Creation form validation', async () => {
+test('Creation Form validation', async () => {
     try {
+        // Generate random data
         const randomStatus = generateRandomStatus();
         const randomResponsiblePerson = generateRandomResposiblePerson();
-        await ropaPage.goToRopa();
-        await expect(page).toHaveURL('https://pubivdjier-testing.priverion.dev/ropa');
-        await expect(page.locator('span[data-cy="title-Record of Processing Activities"]')).toBeVisible();
-        logInfo(`Accessing Ropa`);
         //Validar mensaje de error al no ingresar nombre
         await page.getByRole('button', { name: 'Create' }).click();
         await page.locator('a[data-cy="menu-ropa-create"]').click();
