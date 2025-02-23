@@ -3,9 +3,14 @@ import { LoginPage} from '../pages/loginPage';
 import { logInfo, logError, logWarning } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
-import { generateRandomNumber } from '../utils/helpers';
 
-// Cambia la resolución de la ventana
+/*
+    Se realizo la prueba de la eliminacion
+    de un registro en el modulo de ROPA de
+    dos formas diferentes
+*/
+
+// Change the window resolution
 test.use({
     viewport: { 
         width: VIEWPORT.WIDTH, 
@@ -42,18 +47,22 @@ test.afterAll(async () => {
 
 test ('Delete ROPA successfully Method #1', async () => {
     try {
+        // Delete Ropa
         await ropaPage.deleteRopa(1);
         logInfo('Ropa deleted successfully');
     } catch (error) {
+        //
         logError(`Failed Test Delete ROPA successfully Method #1 ${error}`);
     }
 });
 
 test ('Delete ROPA successfully Method #2', async () => {
     try {
+        // Delete Ropa
         await ropaPage.deleteRopa(2);
         logInfo('Ropa deleted successfully');
     } catch (error) {
+        // Log the error
         logError(`Failed Test Delete ROPA successfully Method #2 ${error}`);
     }
 });

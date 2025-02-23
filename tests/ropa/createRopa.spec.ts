@@ -3,9 +3,14 @@ import { LoginPage} from '../pages/loginPage';
 import { logInfo, logError } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
-import { generateRandomString, generateRandomStatus, generateRandomResposiblePerson } from '../utils/helpers';
+import { generateRandomStatus, generateRandomResposiblePerson } from '../utils/helpers';
 
-// Cambia la resolución de la ventana
+/*
+    Se realizo la prueba de creación de un
+    registro en el modulo de ROPA
+*/
+
+// Change the window resolution
 test.use({
     viewport: { 
         width: VIEWPORT.WIDTH, 
@@ -53,6 +58,7 @@ test('Create ROPA successfully', async () => {
         await expect(status).toContain(result[0]);
         logInfo('Ropa created successfully');
     } catch (error) {
+        // Log the error
         logError(`Failed Test Create Ropa ${error}`);
     }
 });
@@ -68,6 +74,7 @@ test('Creation Form validation', async () => {
         await expect(page.locator('span[data-cy="error-field_required"]')).toBeVisible();
         logInfo('Creation form validated successfully');
     } catch (error) {
+        // Log the error
         logError(`Failed Test Create Ropa ${error}`);
     }
 });

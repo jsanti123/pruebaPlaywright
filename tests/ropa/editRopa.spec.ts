@@ -3,9 +3,15 @@ import { LoginPage} from '../pages/loginPage';
 import { logInfo, logError, logWarning } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
-import exp from 'constants';
-import { log } from 'console';
 
+/*  
+    Se realizo la prueba de la edicion
+    de un registro en el modulo de ROPA
+    tanto de la información General como
+    de los propositos de procesamiento
+*/
+
+// Change the window resolution
 test.use({
     viewport: { 
         width: VIEWPORT.WIDTH, 
@@ -60,6 +66,7 @@ test ('Edit ROPA successfully', async () => {
         await expect(description).toContain(result[2]);
         logInfo('Ropa edited successfully');
     } catch {
+        // Log the error
         logError('Failed Test Edit Ropa');
     }
     
@@ -85,9 +92,11 @@ test('Add Purpose of processing', async () => {
             }
         }
         if (error) {
+            // Log the error
             logError('Purpose of processing not added');
         } 
     } catch {
+        // Log the error
         logError('Failed Test Add Purpose of processing');
     }
 });

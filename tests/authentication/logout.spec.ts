@@ -3,7 +3,11 @@ import { LoginPage} from '../pages/loginPage';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { logInfo, logError } from '../utils/logger';
 
-// Cambia la resolución de la ventana
+/*
+    Se realizo la prueba de logout exitoso
+*/
+
+// Change the window resolution
 test.use({
     viewport: { 
         width: VIEWPORT.WIDTH, 

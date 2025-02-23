@@ -4,7 +4,12 @@ import { logInfo, logError } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
 
-// Cambia la resolución de la ventana
+/*
+    Se realizo la prueba de acceso a al modulo
+    de ROPA
+*/
+
+// Change the window resolution
 test.use({
     viewport: { 
         width: VIEWPORT.WIDTH, 
@@ -30,6 +35,7 @@ test('Access to Ropa', async ({page}) => {
         logInfo(`Accessing Ropa`);
 
     } catch (error) {
+        // Log the error
         logError(`Failed Test Access to Ropa ${error}`);
     }
 });

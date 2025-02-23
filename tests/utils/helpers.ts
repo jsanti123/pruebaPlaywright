@@ -1,3 +1,4 @@
+// Purpose: Contains helper functions for the tests.
 export function generateRandomString(length: number = 20): any {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
