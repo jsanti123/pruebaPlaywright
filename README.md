@@ -21,7 +21,7 @@ Antes de comenzar, asegurarse de tener instalado:
 - npx playwrigth install
 
 ### 4. Ejecución de pruebas
-- npx playwright (Ejecutar todas las pruebas)
+- npx playwright test (Ejecutar todas las pruebas)
 - npx playwright test tests/ropa/editRopa.spec.ts (Ejecutar una prueba especifica)
 - npx playwright test --project=chromium (ejecutar en un navegador especifico)
 
