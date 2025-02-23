@@ -54,6 +54,7 @@ test('Create ROPA successfully', async () => {
         await page.keyboard.press('Enter');
         await page.getByRole('textbox', { name: 'Name' }).fill(randomString);
         await page.getByRole('button', { name: 'Save' }).click();
+        // Check if the page is loaded
         await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
         await expect(page.locator('div#tree-menu')).toBeVisible();
         const responsiblePerson = await page.locator('//div[@data-cy="select-type-responsible-person"]//div[@class="css-18ogjxe-singleValue"]').innerText();
@@ -62,7 +63,6 @@ test('Create ROPA successfully', async () => {
         await expect(status).toContain(randomStatus);
         await expect(responsiblePerson).toContain(randomResponsiblePerson);
         await expect(status).toContain(randomStatus);
-        await page.pause();
         logInfo('Ropa created successfully');
     } catch (error) {
         logError(`Failed Test Create Ropa ${error}`);

@@ -16,4 +16,8 @@ export function generateRandomResposiblePerson(): string {
     const status = ['Admin', 'Sanitago Posada Florez', 'Marcelo'];
     return status[Math.floor(Math.random() * status.length)];
   }
+
+export function generateRandomNumber(max: number): number {
+    return Math.floor(Math.random() * max);
+  }
   
