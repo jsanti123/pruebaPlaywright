@@ -18,6 +18,10 @@ export class RopaPage {
     private readonly deleteButton: Locator;
     private readonly confirmButton: Locator;
     private readonly messageSuccess: Locator;
+    // Locators Edit Ropa
+    private readonly editButton: Locator;
+    private readonly descriptionTextBox: Locator;
+    private readonly selectOrganizacionalUnit: Locator;
 
     // Constructor
     constructor(page: Page) {
@@ -36,6 +40,10 @@ export class RopaPage {
         this.deleteButton = page.locator('svg[data-icon="trash"]');
         this.confirmButton = page.locator('svg[data-icon="circle-check"]');
         this.messageSuccess = page.locator('//div[@class="Toastify"]//button[@type="button"]');
+        // Locators Edit Ropa
+        this.editButton = page.getByRole('button', { name: 'Edit' });
+        this.descriptionTextBox = page.getByRole('textbox', { name: 'Brief description of processing' });
+        this.selectOrganizacionalUnit = page.locator('//div[@data-cy="select-organization-unit"]//input[@type="text"]');
     }
 
     // Method to go to Ropa
@@ -87,5 +95,30 @@ export class RopaPage {
             }
             await expect(this.messageSuccess).toBeVisible();
         }
+    }
+
+    async editRopa(page: Page) {
+        // Generate random data
+        const randomString = generateRandomString();
+        const randomStatus = generateRandomStatus();
+        const randomResponsiblePerson = generateRandomResposiblePerson();
+        const rows = await this.table.locator('xpath=.//tr').all();
+        const randomNumber = generateRandomNumber(rows.length);
+        // Edit Ropa
+        await rows.at(randomNumber)?.click();
+        await this.editButton.click();
+        await expect(page).toHaveURL(/\/ropa\/edit\/.+/);
+        await this.selectResponsiblePerson.fill(randomResponsiblePerson);
+        await page.keyboard.press('Enter');
+        await this.selectStatus.fill(randomStatus);
+        await page.keyboard.press('Enter');
+        await this.nameTextBox.fill(randomString);
+        await this.descriptionTextBox.fill(randomString);
+        await page.keyboard.press('Enter');
+        await this.selectOrganizacionalUnit.fill('prueba');
+        await page.keyboard.press('Enter');
+        await this.saveButton.click();       
+
+        return [randomStatus, randomResponsiblePerson, randomString];
     }
 }

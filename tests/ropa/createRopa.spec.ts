@@ -22,6 +22,7 @@ test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
     ropaPage = new RopaPage(page);
+    // Login
     await page.goto(BASE_URL);
     logInfo(`Accessing ${BASE_URL}`);
     const loginPage = new LoginPage(page);
@@ -41,10 +42,6 @@ test.afterAll(async () => {
 
 test('Create ROPA successfully', async () => {
     try {
-        // Generate random data
-        const randomString = generateRandomString();
-        const randomStatus = generateRandomStatus();
-        const randomResponsiblePerson = generateRandomResposiblePerson();
         // Create Ropa
         const result = await ropaPage.createRopa(page, true);
         // Check if the page is loaded

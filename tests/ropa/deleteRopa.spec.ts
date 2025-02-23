@@ -22,6 +22,7 @@ test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
     ropaPage = new RopaPage(page);
+    // Login
     await page.goto(BASE_URL);
     logInfo(`Accessing ${BASE_URL}`);
     const loginPage = new LoginPage(page);
