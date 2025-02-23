@@ -1,7 +1,7 @@
 # Pruebas de Automatizacion con Playwrigth
 
 ## Descripción
-Este proyecto contiene pruebas automatizadas para la plataforma Priverion, enfocándose en la gestión del módulo **ROPA**. Se han desarrollado tests para la creación, edición y eliminación de registros.
+Este proyecto contiene pruebas automatizadas para la plataforma Priverion, enfocándose en la gestión del módulo **ROPA**. Se han desarrollado tests para la creación, edición y eliminación de registros, adicional se realizo test para el proposito del seguimiento.
 
 ---
 
