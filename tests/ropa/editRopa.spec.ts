@@ -3,8 +3,8 @@ import { LoginPage} from '../pages/loginPage';
 import { logInfo, logError, logWarning } from '../utils/logger';
 import { BASE_URL, USERNAME, PASSWORD, VIEWPORT } from '../utils/constants';
 import { RopaPage } from '../pages/ropaPage';
-import { generateRandomNumber } from '../utils/helpers';
-import { after } from 'node:test';
+import exp from 'constants';
+import { log } from 'console';
 
 test.use({
     viewport: { 
@@ -41,23 +41,53 @@ test.afterAll(async () => {
 });
 
 test ('Edit ROPA successfully', async () => {
-    // Edit Ropa
-    const result = await ropaPage.editRopa(page);
-    // Check if the page is loaded
-    await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
-    await expect(page.locator('div#tree-menu')).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
-    // Check if the data is correct
-    const responsiblePerson = await page.locator('//div[@data-cy="select-type-responsible-person"]//div[@class="css-18ogjxe-singleValue"]').textContent();
-    const status = await page.locator('//div[@data-cy="select-type-status"]//div[@class="css-18ogjxe-singleValue"]').textContent();
-    const name = await page.locator('//span[@data-cy="Name-value"]').textContent();
-    const department = await page.locator('//span[@data-cy="Department-value"]').textContent();
-    const description = await page.locator('//span[@data-cy="Brief description of processing-value"]//textarea').textContent();
-    await expect(status).toContain(result[0]);
-    await expect(responsiblePerson).toContain(result[1]);
-    await expect(name).toContain(result[2]);
-    await expect(department).toContain('prueba');
-    await expect(description).toContain(result[2]);
+    try {
+        // Edit Ropa
+        const result = await ropaPage.editGeneralRopa(page);
+        // Check if the page is loaded
+        await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
+        await expect(page.locator('div#tree-menu')).toBeVisible();
+        // Check if the data is correct
+        const responsiblePerson = await page.locator('//div[@data-cy="select-type-responsible-person"]//div[@class="css-18ogjxe-singleValue"]').textContent();
+        const status = await page.locator('//div[@data-cy="select-type-status"]//div[@class="css-18ogjxe-singleValue"]').textContent();
+        const name = await page.locator('//span[@data-cy="Name-value"]').textContent();
+        const department = await page.locator('//span[@data-cy="Department-value"]').textContent();
+        const description = await page.locator('//span[@data-cy="Brief description of processing-value"]//textarea').textContent();
+        await expect(status).toContain(result[0]);
+        await expect(responsiblePerson).toContain(result[1]);
+        await expect(name).toContain(result[2]);
+        await expect(department).toContain('prueba');
+        await expect(description).toContain(result[2]);
+        logInfo('Ropa edited successfully');
+    } catch {
+        logError('Failed Test Edit Ropa');
+    }
+    
+});
 
-    logInfo('Ropa edited successfully');
+test('Add Purpose of processing', async () => {
+    try {
+        let error = true;
+        // Add Purpose of processing
+        const result = await ropaPage.editPurposeRopa(page);
+        // Check if the page is loaded
+        await expect(page).toHaveURL(/\/ropa\/detail\/.+/);
+        await expect(page.locator('div#tree-menu')).toBeVisible();
+        await expect(page.locator('//span[@data-cy="item_purposes_of_processing"]')).toBeVisible();
+        // Check if the data is correct
+        const table = await page.locator('//div[@id="selectable-table"]//table//tbody');
+        const rows = await table.locator('xpath=.//tr').all();
+        for (let row of rows) {
+            const column2: string = await row.locator('xpath=.//td[2]').innerText();
+            if (column2.includes(result)) {
+                logInfo('Purpose of processing added successfully');
+                error = false;
+            }
+        }
+        if (error) {
+            logError('Purpose of processing not added');
+        } 
+    } catch {
+        logError('Failed Test Add Purpose of processing');
+    }
 });

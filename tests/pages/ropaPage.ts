@@ -22,6 +22,14 @@ export class RopaPage {
     private readonly editButton: Locator;
     private readonly descriptionTextBox: Locator;
     private readonly selectOrganizacionalUnit: Locator;
+    // Locators Purpose Ropa
+    private readonly purposeButton: Locator;
+    private readonly addPurposeButton: Locator;
+    private readonly createPurposeButton: Locator;
+    private readonly selectPurpose: Locator;
+    private readonly purposeTextBox: Locator;
+    private readonly savePurposeButton: Locator;
+    private readonly addPurpose: Locator;
 
     // Constructor
     constructor(page: Page) {
@@ -44,6 +52,14 @@ export class RopaPage {
         this.editButton = page.getByRole('button', { name: 'Edit' });
         this.descriptionTextBox = page.getByRole('textbox', { name: 'Brief description of processing' });
         this.selectOrganizacionalUnit = page.locator('//div[@data-cy="select-organization-unit"]//input[@type="text"]');
+        // Locators Purpose Ropa
+        this.purposeButton = page.locator('//span[@data-cy="menu-item-purpose-of-processings"]');
+        this.addPurposeButton = page.getByRole('link', { name: 'Add' });
+        this.createPurposeButton = page.getByRole('button', { name: 'Create' });
+        this.selectPurpose = page.locator('//div//a[@data-cy="menu-"]');
+        this.purposeTextBox = page.getByRole('textbox', { name: 'Description' });
+        this.savePurposeButton = page.getByRole('button', { name: 'Save' });
+        this.addPurpose = page.getByRole('button', { name: 'Add to list' });
     }
 
     // Method to go to Ropa
@@ -97,7 +113,7 @@ export class RopaPage {
         }
     }
 
-    async editRopa(page: Page) {
+    async editGeneralRopa(page: Page) {
         // Generate random data
         const randomString = generateRandomString();
         const randomStatus = generateRandomStatus();
@@ -120,5 +136,23 @@ export class RopaPage {
         await this.saveButton.click();       
 
         return [randomStatus, randomResponsiblePerson, randomString];
+    }
+
+    async editPurposeRopa(page: Page) {
+        // Generate random data
+        const rows = await this.table.locator('xpath=.//tr').all();
+        const randomNumber = generateRandomNumber(rows.length);
+        const randomString = generateRandomString();
+        // Edit Ropa
+        await rows.at(randomNumber)?.click();
+        await this.purposeButton.click();
+        await this.addPurposeButton.click();
+        await this.createPurposeButton.click();
+        await this.selectPurpose.click();
+        await this.purposeTextBox.fill(randomString);
+        await this.savePurposeButton.click();
+        await this.addPurpose.click();
+
+        return randomString;
     }
 }
